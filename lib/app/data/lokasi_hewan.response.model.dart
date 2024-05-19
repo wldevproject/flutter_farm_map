@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final lokasiHewanResponseModel = lokasiHewanResponseModelFromJson(jsonString);
+
 import 'dart:convert';
 
 LokasiHewanResponseModel lokasiHewanResponseModelFromJson(String str) => LokasiHewanResponseModel.fromJson(json.decode(str));
@@ -5,39 +9,15 @@ LokasiHewanResponseModel lokasiHewanResponseModelFromJson(String str) => LokasiH
 String lokasiHewanResponseModelToJson(LokasiHewanResponseModel data) => json.encode(data.toJson());
 
 class LokasiHewanResponseModel {
-  final int? status;
-  final String? message;
-  final Result? result;
-
-  LokasiHewanResponseModel({
-    this.status,
-    this.message,
-    this.result,
-  });
-
-  factory LokasiHewanResponseModel.fromJson(Map<String, dynamic> json) => LokasiHewanResponseModel(
-    status: json["status"],
-    message: json["message"],
-    result: json["result"] == null ? null : Result.fromJson(json["result"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "status": status,
-    "message": message,
-    "result": result?.toJson(),
-  };
-}
-
-class Result {
   final List<DataTitik>? dataTitik;
   final DataKandang? dataKandang;
 
-  Result({
+  LokasiHewanResponseModel({
     this.dataTitik,
     this.dataKandang,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory LokasiHewanResponseModel.fromJson(Map<String, dynamic> json) => LokasiHewanResponseModel(
     dataTitik: json["dataTitik"] == null ? [] : List<DataTitik>.from(json["dataTitik"]!.map((x) => DataTitik.fromJson(x))),
     dataKandang: json["dataKandang"] == null ? null : DataKandang.fromJson(json["dataKandang"]),
   );

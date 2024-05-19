@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_farm_map/app/helper/bottom_press.dart';
 import 'package:flutter_farm_map/app/helper/box_card.dart';
 import 'package:flutter_farm_map/app/helper/config/color.config.dart';
 import 'package:flutter_farm_map/app/helper/config/dimens.config.dart';
@@ -15,6 +14,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:ripple_wave/ripple_wave.dart';
 
 import '../../../data/lokasi_hewan.response.model.dart';
+import '../../../helper/bottom_press.dart';
 import '../controllers/map_controller.dart';
 
 class MapView extends GetView<SiteMapController> {
@@ -30,105 +30,113 @@ class MapView extends GetView<SiteMapController> {
       body: StreamBuilder<LokasiHewanResponseModel>(
           stream: controller.eventStream,
           builder: (ctx, snapshot) {
-            return Obx(() => Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    FlutterMap(
-                      mapController: controller.mapController,
-                      options: MapOptions(
-                        initialCenter: controller.currentLocation.value,
-                        initialZoom: 16.0,
-                        minZoom: 3.0,
-                        onTap: (_, point) {
-                          controller.setLocation.value = point;
-                          controller.setPlaceMark(point);
-                        },
-                        interactionOptions: const InteractionOptions(
-                          flags: InteractiveFlag.pinchZoom |
-                              InteractiveFlag.drag |
-                              InteractiveFlag.flingAnimation |
-                              InteractiveFlag.pinchMove |
-                              InteractiveFlag.doubleTapZoom |
-                              InteractiveFlag.doubleTapDragZoom |
-                              InteractiveFlag.scrollWheelZoom,
-                        ),
+            // return Center(child: Text((snapshot.data?.dataTitik?.length ?? 0).toString()));
+            return Obx(
+              () => Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  FlutterMap(
+                    mapController: controller.mapController,
+                    options: MapOptions(
+                      initialCenter: controller.currentLocation.value,
+                      initialZoom: 16.0,
+                      minZoom: 3.0,
+                      onTap: (_, point) {
+                        controller.setLocation.value = point;
+                        controller.setPlaceMark(point);
+                      },
+                      interactionOptions: const InteractionOptions(
+                        flags: InteractiveFlag.pinchZoom |
+                            InteractiveFlag.drag |
+                            InteractiveFlag.flingAnimation |
+                            InteractiveFlag.pinchMove |
+                            InteractiveFlag.doubleTapZoom |
+                            InteractiveFlag.doubleTapDragZoom |
+                            InteractiveFlag.scrollWheelZoom,
                       ),
-                      children: [
-                        TileLayer(
-                          urlTemplate:
-                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                          userAgentPackageName: 'com.example.mobile_apps',
-                        ),
-                        MarkerLayer(
-                          markers: [
-                            const Marker(
-                              width: 30,
-                              height: 30,
-                              // point: LatLng(controller.currentPosition?.latitude ?? 0, controller.currentPosition?.longitude ?? 0),
-                              point: LatLng(-6.476737, 106.851021),
-                              alignment: Alignment.topCenter,
-                              child: RippleWave(
-                                color: Colors.white,
-                                child: Icon(
-                                  Icons.location_pin,
-                                  color: Colors.blue,
-                                  size: 30,
-                                ),
+                    ),
+                    children: [
+                      TileLayer(
+                        urlTemplate:
+                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        userAgentPackageName: 'com.example.mobile_apps',
+                      ),
+                      MarkerLayer(
+                        markers: [
+                          const Marker(
+                            width: 30,
+                            height: 30,
+                            // point: LatLng(controller.currentPosition?.latitude ?? 0, controller.currentPosition?.longitude ?? 0),
+                            point: LatLng(-6.476737, 106.851021),
+                            alignment: Alignment.topCenter,
+                            child: RippleWave(
+                              color: Colors.white,
+                              child: Icon(
+                                Icons.location_pin,
+                                color: Colors.blue,
+                                size: 30,
                               ),
                             ),
-                            buildPin(const LatLng(-6.4750366, 106.851021)),
-                            buildPin(const LatLng(-6.4760889, 106.8481697)),
+                          ),
+                          // buildPin(const LatLng(-6.4750366, 106.851021)),
+                          // buildPin(const LatLng(-6.4760889, 106.8481697)),
 
-                            // ...List.generate((snapshot.data?.result?.dataTitik?.length ?? 0),(index) {
-                            //   return buildPin(LatLng(double.parse(snapshot.data?.result?.dataTitik?[index].latitude ?? "0") , double.parse(snapshot.data?.result?.dataTitik?[index].longitude ?? "0")));
-                            // }),
-                            if (controller.setLocation.value !=
-                                const LatLng(0, 0))
-                              buildPin(controller.setLocation.value),
-                          ],
-                        ),
-                         CircleLayer(
-                          circles: [
-                            CircleMarker(
-                              point: const LatLng(-6.476737, 106.851021),
-                              radius: 30,
-                              useRadiusInMeter: true,
-                              color: Colors.blue.withOpacity(0.3),
-                              borderColor: Colors.blue,
-                              borderStrokeWidth: 1,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    AnimatedPositioned(
-                      bottom: controller.isHide.value ? -200 : 10,
-                      right: 10,
-                      left: 10,
-                      duration: 200.milliseconds,
-                      curve: Curves.easeIn,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          ButtonPress(
-                            icon: FontAwesomeIcons.mapLocationDot,
-                            colorIcon: ColorApps.active,
-                            onPressed: () {
-                              controller.animatedMapMove(
-                                  controller.currentLocation.value, 16.0);
-                            },
-                            backgroundColor: ColorApps.white.withOpacity(0.7),
-                            height: 48,
-                            width: 48,
-                          ),
-                          LocationPointContent(
-                            controller: controller
-                          ),
-                        ].separate(10),
+                          ...List.generate(
+                              (snapshot.data?.dataTitik?.length ?? 0), (index) {
+                            return buildPin(LatLng(
+                                double.parse(
+                                    snapshot.data?.dataTitik?[index].latitude ??
+                                        "0"),
+                                double.parse(snapshot
+                                        .data?.dataTitik?[index].longitude ??
+                                    "0")));
+                          }),
+                          if (controller.setLocation.value !=
+                              const LatLng(0, 0))
+                            buildPin(controller.setLocation.value),
+                        ],
                       ),
+                      CircleLayer(
+                        circles: [
+                          CircleMarker(
+                            point: const LatLng(-6.476737, 106.851021),
+                            radius: 30,
+                            useRadiusInMeter: true,
+                            color: Colors.blue.withOpacity(0.3),
+                            borderColor: Colors.blue,
+                            borderStrokeWidth: 1,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  AnimatedPositioned(
+                    bottom: controller.isHide.value ? -200 : 10,
+                    right: 10,
+                    left: 10,
+                    duration: 200.milliseconds,
+                    curve: Curves.easeIn,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        ButtonPress(
+                          icon: FontAwesomeIcons.mapLocationDot,
+                          colorIcon: ColorApps.active,
+                          onPressed: () {
+                            controller.animatedMapMove(
+                                controller.currentLocation.value, 16.0);
+                          },
+                          backgroundColor: ColorApps.white.withOpacity(0.7),
+                          height: 48,
+                          width: 48,
+                        ),
+                        LocationPointContent(controller: controller),
+                      ].separate(10),
                     ),
-                  ],
-                ));
+                  ),
+                ],
+              ),
+            );
           }),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../data/lokasi_hewan.response.model.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 import '../../../helper/colors.dart';
@@ -27,16 +26,11 @@ class HomeView extends GetView<HomeController> {
               ],
             ),
             SafeArea(
-              child: StreamBuilder<LokasiHewanResponseModel>(
-                stream: controller.eventStream,
-                builder: (context, snapshot) {
-                  return Column(
-                    children: [
-                      ViewHeaderUI(controller: controller, snapshot: snapshot),
-                      ViewContent(controller: controller, snapshot: snapshot),
-                    ],
-                  );
-                },
+              child: Column(
+                children: [
+                  ViewHeaderUI(controller: controller),
+                  ViewContent(controller: controller),
+                ],
               ),
             ),
           ],
@@ -49,11 +43,9 @@ class HomeView extends GetView<HomeController> {
 class ViewHeaderUI extends StatelessWidget {
   const ViewHeaderUI({
     super.key,
-    required this.snapshot,
     required this.controller,
   });
 
-  final AsyncSnapshot<LokasiHewanResponseModel> snapshot;
   final HomeController controller;
 
   @override
@@ -66,9 +58,7 @@ class ViewHeaderUI extends StatelessWidget {
             child: Container(
               height: 12,
               width: 12,
-              color: snapshot.connectionState == ConnectionState.active
-                  ? online
-                  : warning,
+              color: online,
             ),
           ),
         ),
@@ -99,143 +89,22 @@ class ViewHeaderUI extends StatelessWidget {
 class ViewContent extends StatelessWidget {
   const ViewContent({
     super.key,
-    required this.snapshot,
     required this.controller,
   });
 
-  final AsyncSnapshot<LokasiHewanResponseModel> snapshot;
   final HomeController controller;
 
   @override
   Widget build(BuildContext context) {
-    // if (snapshot.hasData) {
-    final event = snapshot.data ?? LokasiHewanResponseModel();
-
     return Column(
       children: [
-        // ListView.builder(
-        //   padding: EdgeInsets.zero,
-        //   physics: const NeverScrollableScrollPhysics(),
-        //   shrinkWrap: true,
-        //   itemBuilder: (BuildContext context, int index) {
-        //     return ListTile(title: Text((event.result?.dataTitik?[index].idSensor ?? 0).toString()),);
-        //   },
-        //   itemCount: event.result?.dataTitik?.length,
-        // ),
         ElevatedButton(
           onPressed: () async {
-            await Get.toNamed(
-              Routes.MAP,
-              arguments:
-              // controller.costumerDatum.value.titikMaps ??
-              controller.pointSet,
-            );
+            await Get.toNamed(Routes.MAP);
           },
           child: const Text("To Map"),
         ),
       ],
     );
-
-    // return Column(
-    //   children: [
-    //     ...[
-    //       SizedBox(
-    //         height: 200,
-    //         child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.end,
-    //           crossAxisAlignment: CrossAxisAlignment.center,
-    //           children: [
-    //             IntrinsicWidth(
-    //               child: Container(
-    //                 decoration: BoxDecoration(
-    //                   borderRadius: BorderRadius.circular(24),
-    //                   border: Border.all(
-    //                     color: primaryGrey,
-    //                     width: 1.0,
-    //                   ),
-    //                 ),
-    //                 child: Padding(
-    //                   padding: const EdgeInsets.symmetric(
-    //                       horizontal: 8, vertical: 8),
-    //                   child: Row(
-    //                     children: [
-    //                       Text(
-    //                         'PRODUKSI DAYA',
-    //                         style: headingSemi7.copyWith(color: primaryDark),
-    //                       ),
-    //                       const SizedBox(
-    //                         width: 4,
-    //                       ),
-    //                       SvgPicture.asset(
-    //                         colorFilter: ColorFilter.mode(
-    //                             daya > 0 ? warning : primaryGrey,
-    //                             BlendMode.srcIn),
-    //                         icLightning,
-    //                         width: 12,
-    //                         height: 12,
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             const SizedBox(
-    //               height: 4,
-    //             ),
-    //             Text(
-    //               "${(double.parse(event.daya ?? '0').toGMK)}W",
-    //               style: headingB.copyWith(color: primaryDark),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //       ListTile(
-    //         title: Text(
-    //           "TEGANGAN",
-    //           style: headingSemi6.copyWith(color: primaryDark),
-    //         ),
-    //         subtitle: Text(
-    //           "${(double.parse(event.tegangan ?? '0').toGMK)}V",
-    //           style: headingBMedium.copyWith(color: primaryDark),
-    //         ),
-    //       ),
-    //       ListTile(
-    //         title: Text(
-    //           "ARUS",
-    //           style: headingSemi6.copyWith(color: primaryDark),
-    //         ),
-    //         subtitle: Text(
-    //           "${(double.parse(event.arus ?? '0').toGMK)}A",
-    //           style: headingBMedium.copyWith(color: primaryDark),
-    //         ),
-    //       ),
-    //       ListTile(
-    //         title: Text(
-    //           "SUHU",
-    //           style: headingSemi6.copyWith(color: primaryDark),
-    //         ),
-    //         subtitle: Text(
-    //           "${(double.parse(event.suhu ?? '0').toGMK)} ℃",
-    //           style: headingBMedium.copyWith(color: primaryDark),
-    //         ),
-    //       ),
-    //
-    //       ElevatedButton(
-    //         onPressed: () async {
-    //           await Get.toNamed(
-    //             Routes.MAP,
-    //             arguments:
-    //             // controller.costumerDatum.value.titikMaps ??
-    //             controller.pointSet,
-    //           );
-    //         },
-    //         child: const Text("To Map"),
-    //       )
-    //     ].separateTest(
-    //       2,
-    //       child: const Divider(thickness: 1, color: primaryLightGrey),
-    //     ),
-    //   ],
-    // );
   }
 }

@@ -42,6 +42,9 @@ class SiteMapController extends GetxController
   void onInit() async {
     super.onInit();
     _apiService = Get.put(ApiService());
+    _apiService.bidSocket().connect();
+    connect();
+
     animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
     // getCurrentLocation(isFirst: true);
@@ -54,8 +57,6 @@ class SiteMapController extends GetxController
       );
       if (setLocation.value != const LatLng(0, 0)) {
         await setPlaceMark(setLocation.value);
-        _apiService.bidSocket().connect();
-        connect();
       }
     }
   }
@@ -177,7 +178,7 @@ class SiteMapController extends GetxController
     });
 
     _apiService.bidSocket().on('titikhewan', (data) {
-      print('data $data');
+      // print('data $data');
       lokasiHewan(data);
     });
   }
@@ -186,6 +187,7 @@ class SiteMapController extends GetxController
     var data = jsonEncode(msg);
     final messageModel = LokasiHewanResponseModel.fromJson(jsonDecode(data));
     _events(messageModel);
+    print(data);
     update();
   }
 }
