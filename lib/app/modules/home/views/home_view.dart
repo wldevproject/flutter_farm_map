@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_farm_map/app/helper/format_number_helper.dart';
 import 'package:flutter_farm_map/app/helper/gap_separate.dart';
+import 'package:flutter_farm_map/app/routes/app_pages.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -35,8 +36,8 @@ class HomeView extends GetView<HomeController> {
                 builder: (context, snapshot) {
                   return Column(
                     children: [
-                      ViewHeaderUI(snapshot: snapshot),
-                      ViewContent(snapshot: snapshot)
+                      ViewHeaderUI(controller: controller, snapshot: snapshot),
+                      ViewContent(controller: controller, snapshot: snapshot)
                     ],
                   );
                 },
@@ -53,9 +54,11 @@ class ViewHeaderUI extends StatelessWidget {
   const ViewHeaderUI({
     super.key,
     required this.snapshot,
+    required this.controller,
   });
 
   final AsyncSnapshot<SocketSolarPanelModel> snapshot;
+  final HomeController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +104,11 @@ class ViewContent extends StatelessWidget {
   const ViewContent({
     super.key,
     required this.snapshot,
+    required this.controller,
   });
 
   final AsyncSnapshot<SocketSolarPanelModel> snapshot;
+  final HomeController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +200,18 @@ class ViewContent extends StatelessWidget {
               style: headingBMedium.copyWith(color: primaryDark),
             ),
           ),
-          ElevatedButton(onPressed: (){}, child: const Text("To Map"))
+          
+          ElevatedButton(
+            onPressed: () async {
+              await Get.toNamed(
+                Routes.MAP,
+                arguments:
+                    // controller.costumerDatum.value.titikMaps ??
+                    controller.pointSet,
+              );
+            },
+            child: const Text("To Map"),
+          )
         ].separateTest(
           2,
           child: const Divider(thickness: 1, color: primaryLightGrey),
@@ -213,4 +229,3 @@ class ViewContent extends StatelessWidget {
     // }
   }
 }
-

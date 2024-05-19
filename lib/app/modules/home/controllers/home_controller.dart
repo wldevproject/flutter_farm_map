@@ -8,8 +8,10 @@ import '../../../data/response.model.dart';
 class HomeController extends GetxController {
   late final ApiService _apiService;
   late final _events = SocketSolarPanelModel().obs;
+  late final _pointSet = ''.obs;
 
   Stream<SocketSolarPanelModel> get eventStream => _events.stream;
+  String get pointSet => _pointSet.value;
 
   void connect() {
     _apiService.bidSocket().on('connect', (_) {
