@@ -1,12 +1,17 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_farm_map/app/helper/location_helper.dart';
+// import 'package:flutter_farm_map/app/helper/location_helper.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
+
+import '../../../data/api.service.dart';
+import '../../../data/lokasi_hewan.response.model.dart';
 
 class SiteMapController extends GetxController
     with SingleGetTickerProviderMixin {
@@ -14,17 +19,20 @@ class SiteMapController extends GetxController
   var inProgressId = 'AnimatedMapController#MoveInProgress';
   var finishedId = 'AnimatedMapController#MoveFinished';
 
+  late final ApiService _apiService;
+  late final _events = LokasiHewanResponseModel().obs;
+  late final _pointSet = ''.obs;
   late AnimationController animationController;
   final mapController = MapController();
   var currentLocation =
-      const LatLng(-6.601360704193933, 106.80507980862807).obs;
+      const LatLng(-6.476737, 106.851021).obs;
 
   final _placemark = Rx<List<Placemark>?>(null);
   List<Placemark>? get placemark => _placemark.value;
 
-  final _currentPosition = Rx<Position?>(null);
-  Position? get currentPosition => _currentPosition.value;
-  final TextEditingController locationController = TextEditingController();
+  // final _currentPosition = Rx<Position?>(null);
+  // Position? get currentPosition => _currentPosition.value;
+  // final TextEditingController locationController = TextEditingController();
 
   var setLocation = const LatLng(0, 0).obs;
   var address = ''.obs;
@@ -33,9 +41,10 @@ class SiteMapController extends GetxController
   @override
   void onInit() async {
     super.onInit();
+    _apiService = Get.put(ApiService());
     animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
-    getCurrentLocation(isFirst: true);
+    // getCurrentLocation(isFirst: true);
 
     if (Get.arguments != null) {
       var latLong = parseLatLong(Get.arguments);
@@ -45,6 +54,8 @@ class SiteMapController extends GetxController
       );
       if (setLocation.value != const LatLng(0, 0)) {
         await setPlaceMark(setLocation.value);
+        _apiService.bidSocket().connect();
+        connect();
       }
     }
   }
@@ -52,6 +63,7 @@ class SiteMapController extends GetxController
   @override
   void onClose() {
     animationController.dispose();
+    _apiService.bidSocket().disconnect();
     super.onClose();
   }
 
@@ -103,38 +115,38 @@ class SiteMapController extends GetxController
     controller.forward();
   }
 
-  void getCurrentLocation({
-    bool isFirst = false,
-    bool enableMapController = true,
-  }) async {
-    try {
-      // isLoadingLocation(true);
-      var location = await LocationHelper.getCurrentLocation();
-      var locationConvert = await placemarkFromCoordinates(
-        location.latitude,
-        location.longitude,
-      );
-      _placemark.value = locationConvert;
-      _currentPosition.value = location;
-
-      if (enableMapController) {
-        if (setLocation.value != const LatLng(0, 0)) {
-          mapController.move(setLocation.value, 16);
-          isHide(false);
-        } else {
-          mapController.move(LatLng(location.latitude, location.longitude), 16);
-        }
-        currentLocation.value = LatLng(location.latitude, location.longitude);
-      }
-
-      if (isFirst == false) {
-        locationController.text =
-            '${locationConvert[0].subAdministrativeArea}, ${locationConvert[0].administrativeArea}';
-      }
-    } finally {
-      // isLoadingLocation(false);
-    }
-  }
+  // void getCurrentLocation({
+  //   bool isFirst = false,
+  //   bool enableMapController = true,
+  // }) async {
+  //   try {
+  //     // isLoadingLocation(true);
+  //     var location = await LocationHelper.getCurrentLocation();
+  //     var locationConvert = await placemarkFromCoordinates(
+  //       location.latitude,
+  //       location.longitude,
+  //     );
+  //     _placemark.value = locationConvert;
+  //     _currentPosition.value = location;
+  //
+  //     if (enableMapController) {
+  //       if (setLocation.value != const LatLng(0, 0)) {
+  //         mapController.move(setLocation.value, 16);
+  //         isHide(false);
+  //       } else {
+  //         mapController.move(LatLng(location.latitude, location.longitude), 16);
+  //       }
+  //       currentLocation.value = LatLng(location.latitude, location.longitude);
+  //     }
+  //
+  //     if (isFirst == false) {
+  //       locationController.text =
+  //           '${locationConvert[0].subAdministrativeArea}, ${locationConvert[0].administrativeArea}';
+  //     }
+  //   } finally {
+  //     // isLoadingLocation(false);
+  //   }
+  // }
 
   Future<void> setPlaceMark(LatLng point) async {
     try {
@@ -150,5 +162,30 @@ class SiteMapController extends GetxController
     } finally {
       // isLoadingLocation(false);
     }
+  }
+
+  Stream<LokasiHewanResponseModel> get eventStream => _events.stream;
+  String get pointSet => _pointSet.value;
+
+  void connect() {
+    _apiService.bidSocket().on('connect', (_) {
+      print('Connected to Socket.IO server');
+    });
+
+    _apiService.bidSocket().on('disconnect', (_) {
+      print('Disconnected from Socket.IO server');
+    });
+
+    _apiService.bidSocket().on('titikhewan', (data) {
+      print('data $data');
+      lokasiHewan(data);
+    });
+  }
+
+  void lokasiHewan(msg) {
+    var data = jsonEncode(msg);
+    final messageModel = LokasiHewanResponseModel.fromJson(jsonDecode(data));
+    _events(messageModel);
+    update();
   }
 }

@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:get/get.dart';
 
 import '../../../data/api.service.dart';
-import '../../../data/response.model.dart';
+import '../../../data/lokasi_hewan.response.model.dart';
 
 class HomeController extends GetxController {
   late final ApiService _apiService;
-  late final _events = SocketSolarPanelModel().obs;
+  late final _events = LokasiHewanResponseModel().obs;
   late final _pointSet = ''.obs;
 
-  Stream<SocketSolarPanelModel> get eventStream => _events.stream;
+  Stream<LokasiHewanResponseModel> get eventStream => _events.stream;
   String get pointSet => _pointSet.value;
 
   void connect() {
@@ -24,13 +24,13 @@ class HomeController extends GetxController {
 
     _apiService.bidSocket().on('titikhewan', (data) {
       print('data $data');
-      setSolarPanel(data);
+      // lokasiHewan(data);
     });
   }
 
-  void setSolarPanel(msg) {
+  void lokasiHewan(msg) {
     var data = jsonEncode(msg);
-    final messageModel = SocketSolarPanelModel.fromJson(jsonDecode(data));
+    final messageModel = LokasiHewanResponseModel.fromJson(jsonDecode(data));
     _events(messageModel);
     update();
   }
