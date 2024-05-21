@@ -100,7 +100,8 @@ class ViewContent extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () async {
-            await Get.toNamed(Routes.MAP);
+            await controller.fetchLokasiUtama();
+            Get.toNamed(Routes.MAP, arguments: controller.result);
           },
           child: const Text("To Map"),
         ),

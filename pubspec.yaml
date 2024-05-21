@@ -50,6 +50,7 @@ dependencies:
   flutter_map: ^6.1.0
   latlong2: ^0.9.1
   ripple_wave: ^0.1.4
+  carousel_slider: ^4.2.1
   flutter_image_slideshow: ^0.1.6
 
 dev_dependencies: 
