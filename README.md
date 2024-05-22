@@ -1,4 +1,3 @@
-````markdown
 # Livestock Location Tracker using Socket.IO and Flutter
 
 ## Overview
@@ -16,11 +15,11 @@ This project is a mobile application developed using Flutter and Socket.IO for r
 ## Installation
 
 1. **Clone the repository**:
+
    ```sh
    git clone https://github.com/wldevproject/flutter_farm_map.git
    cd flutter_farm_map
    ```
-````
 
 2. **Install dependencies**:
 
