@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_farm_map/app/helper/config/theme.config.dart';
 
 class ColorApps {
   static Color get baseColor => const Color(0xFFF2F3F3);
@@ -16,7 +15,6 @@ class ColorApps {
   static Color get darkBlue => const Color(0xFF1e3f66);
   static Color get red => const Color(0xFFC52525);
   static Color get green => const Color(0xFF30AA17);
-  static Color get like => secondarySeedColor;
   static Color get shimmerColor => Colors.grey[200]!;
   static Color get shimmerLoadingColor => Colors.grey[50]!;
   static Color get borderOff => const Color(0xffd2d2d2);

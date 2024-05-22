@@ -6,8 +6,9 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  var socketUrl = 'http://103.186.0.54:4400';
-  Uri get lokasiUtama => Uri.parse("$socketUrl/api/v1/sensor-testing/wimon");
+  var socketUrl = 'YOUR_SOCKET_IO_SERVER_URL';
+  var socketPatch = 'YOUR_PATCH_URL';
+  Uri get lokasiUtama => Uri.parse("$socketUrl/socketPatch");
 
   io.Socket bidSocket() {
     return io.io(socketUrl, <String, dynamic>{
@@ -38,7 +39,6 @@ class ApiService {
 }
 
 extension DynamicUriExtension on Uri {
-  // loginApi.withQuery({'page': '1'}).withPaths(['/pelanggan/table']),
   Uri withQuery(Map<String, String> queryParameters) {
     var newUri = this;
     return newUri.replace(queryParameters: queryParameters);

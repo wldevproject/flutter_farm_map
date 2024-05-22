@@ -11,3 +11,11 @@ const String onBoxHand = 'assets/icons/ic_on_box_hand.svg';
 const String onBoxPoint = 'assets/icons/ic_on_box_point.svg';
 const String onPickup = 'assets/icons/ic_on_pickup.svg';
 const String onWarehouse = 'assets/icons/ic_warehouse.svg';
+
+const String icLightning = 'assets/icons/lightning.svg';
+const String icPvPanel = 'assets/icons/pv_panel.svg';
+const String icPvSunPanel = 'assets/icons/pv_sun_panel.svg';
+
+const String imgPanel = 'assets/images/background.svg';
+const String imgPanelPNG = 'assets/images/background_png.png';
+

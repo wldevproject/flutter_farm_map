@@ -34,10 +34,6 @@ class SiteMapController extends GetxController
   final _placemark = Rx<List<Placemark>?>(null);
   List<Placemark>? get placemark => _placemark.value;
 
-  // final _currentPosition = Rx<Position?>(null);
-  // Position? get currentPosition => _currentPosition.value;
-  // final TextEditingController locationController = TextEditingController();
-
   var setLocation = const LatLng(0, 0).obs;
   var address = ''.obs;
   var isHide = true.obs;
@@ -53,7 +49,6 @@ class SiteMapController extends GetxController
 
     animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
-    // getCurrentLocation(isFirst: true);
 
     if (Get.arguments != null) {
       var latLong = parseLatLong(Get.arguments);
@@ -165,39 +160,6 @@ class SiteMapController extends GetxController
     controller.forward();
   }
 
-  // void getCurrentLocation({
-  //   bool isFirst = false,
-  //   bool enableMapController = true,
-  // }) async {
-  //   try {
-  //     // isLoadingLocation(true);
-  //     var location = await LocationHelper.getCurrentLocation();
-  //     var locationConvert = await placemarkFromCoordinates(
-  //       location.latitude,
-  //       location.longitude,
-  //     );
-  //     _placemark.value = locationConvert;
-  //     _currentPosition.value = location;
-  //
-  //     if (enableMapController) {
-  //       if (setLocation.value != const LatLng(0, 0)) {
-  //         mapController.move(setLocation.value, 16);
-  //         isHide(false);
-  //       } else {
-  //         mapController.move(LatLng(location.latitude, location.longitude), 16);
-  //       }
-  //       currentLocation.value = LatLng(location.latitude, location.longitude);
-  //     }
-  //
-  //     if (isFirst == false) {
-  //       locationController.text =
-  //           '${locationConvert[0].subAdministrativeArea}, ${locationConvert[0].administrativeArea}';
-  //     }
-  //   } finally {
-  //     // isLoadingLocation(false);
-  //   }
-  // }
-
   Future<void> setPlaceMark(LatLng point) async {
     try {
       List<Placemark> newPlace =
@@ -207,11 +169,8 @@ class SiteMapController extends GetxController
         Placemark placeMark = newPlace[0];
         address.value =
             "${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.administrativeArea} ${placeMark.postalCode}, ${placeMark.country}";
-        // isHide(false);
       }
-    } finally {
-      // isLoadingLocation(false);
-    }
+    } finally {}
   }
 
   Stream<LokasiHewanResponseModel> get eventStream => _events.stream;
@@ -227,7 +186,6 @@ class SiteMapController extends GetxController
     });
 
     _apiService.bidSocket().on('titikhewan', (data) {
-      // print('data $data');
       lokasiHewan(data);
     });
   }
@@ -240,10 +198,6 @@ class SiteMapController extends GetxController
     if ((messageModel.dataTitik ?? []).isNotEmpty) {
       isHide(false);
     }
-    // print(messageModel.dataTitik?.any((element) => element.alert == true));
-
-    // Alert.errorSnackBar(desc:  '');
-
     update();
   }
 }

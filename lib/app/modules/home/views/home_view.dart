@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_farm_map/app/helper/config/color.config.dart';
+import 'package:flutter_farm_map/app/helper/config/dimens.config.dart';
+import 'package:flutter_farm_map/app/helper/config/icons.config.dart';
+import 'package:flutter_farm_map/app/modules/home/controllers/home_controller.dart';
+import 'package:flutter_farm_map/app/routes/app_pages.dart';
 import 'package:get/get.dart';
-
-import '../../../routes/app_pages.dart';
-import '../controllers/home_controller.dart';
-import '../../../helper/colors.dart';
-import '../../../helper/dimens_size.dart';
-import '../../../helper/image.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -58,7 +57,7 @@ class ViewHeaderUI extends StatelessWidget {
             child: Container(
               height: 12,
               width: 12,
-              color: online,
+              color: ColorApps.active,
             ),
           ),
         ),
@@ -66,7 +65,7 @@ class ViewHeaderUI extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 4),
           child: Text(
             'Live',
-            style: regular4.copyWith(color: primaryDark),
+            style: regular4.copyWith(color: ColorApps.darkColor),
           ),
         ),
         Expanded(
@@ -76,7 +75,7 @@ class ViewHeaderUI extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: Container(
                 height: 2,
-                color: primaryDark,
+                color: ColorApps.darkColor,
               ),
             ),
           ),
