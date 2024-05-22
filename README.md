@@ -4,6 +4,10 @@
 
 This project is a mobile application developed using Flutter and Socket.IO for real-time tracking of livestock within a farming area. The application detects and displays the location of livestock using coordinate points, providing an intuitive and user-friendly interface for farmers to monitor their animals' positions on a map.
 
+<img src="https://github.com/wldevproject/flutter_farm_map/blob/master/assets/images/sc_001.jpeg" width="250"> <img src="https://github.com/wldevproject/flutter_farm_map/blob/master/assets/images/sc_002.jpeg" width="250">
+
+<img src="https://github.com/wldevproject/flutter_farm_map/blob/master/assets/images/sc_003.jpeg" width="250"> <img src="https://github.com/wldevproject/flutter_farm_map/blob/master/assets/images/sc_004.jpeg" width="250">
+
 ## Features
 
 - **Real-time Location Tracking**: Utilize Socket.IO for instant updates on livestock positions.
@@ -73,10 +77,6 @@ We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-For any inquiries or support, please contact us at support@yourdomain.com.
 
 ---
 
