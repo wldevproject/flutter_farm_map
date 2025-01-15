@@ -10,10 +10,10 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 
-import '../../../data/api.service.dart';
-import '../../../data/lokasi_hewan.response.model.dart';
+import '../../../../data/api.service.dart';
+import '../../../../data/lokasi_hewan.response.model.dart';
 
-class SiteMapController extends GetxController
+class MapHewanController extends GetxController
     with SingleGetTickerProviderMixin {
   var startedId = 'AnimatedMapController#MoveStarted';
   var inProgressId = 'AnimatedMapController#MoveInProgress';

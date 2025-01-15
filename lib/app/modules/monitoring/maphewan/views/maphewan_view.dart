@@ -14,11 +14,11 @@ import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:ripple_wave/ripple_wave.dart';
 
-import '../../../data/lokasi_hewan.response.model.dart';
-import '../controllers/map_controller.dart';
+import '../../../../data/lokasi_hewan.response.model.dart';
+import '../controllers/maphewan_controller.dart';
 
-class MapView extends GetView<SiteMapController> {
-  const MapView({Key? key}) : super(key: key);
+class MapHewanView extends GetView<MapHewanController> {
+  const MapHewanView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

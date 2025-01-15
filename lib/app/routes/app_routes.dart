@@ -6,11 +6,13 @@ part of 'app_pages.dart';
 abstract class Routes {
   Routes._();
   static const HOME = _Paths.HOME;
-  static const MAP = _Paths.MAP;
+  static const MAP_HEWAN = _Paths.MAP;
+  static const INFUS = _Paths.INFUS;
 }
 
 abstract class _Paths {
   _Paths._();
   static const HOME = '/home';
-  static const MAP = '/map';
+  static const MAP = '/map-hewan';
+  static const INFUS = '/infus';
 }

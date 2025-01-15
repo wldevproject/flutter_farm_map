@@ -1,11 +1,13 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:get/get.dart';
 
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
-import '../modules/map/bindings/map_binding.dart';
-import '../modules/map/views/map_view.dart';
+import '../modules/monitoring/infus/bindings/infus_binding.dart';
+import '../modules/monitoring/infus/views/infus_view.dart';
+import '../modules/monitoring/maphewan/bindings/maphewan_binding.dart';
+import '../modules/monitoring/maphewan/views/maphewan_view.dart';
+
+// ignore_for_file: constant_identifier_names
 
 part 'app_routes.dart';
 
@@ -22,8 +24,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.MAP,
-      page: () => const MapView(),
-      binding: MapBinding(),
+      page: () => const MapHewanView(),
+      binding: MapHewanBinding(),
+    ),
+    GetPage(
+      name: _Paths.INFUS,
+      page: () => const InfusView(),
+      binding: InfusBinding(),
     ),
   ];
 }
